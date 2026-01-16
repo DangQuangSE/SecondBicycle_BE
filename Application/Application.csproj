@@ -15,6 +15,7 @@
     <Folder Include="IServices\" />
     <Folder Include="Helpers\" />
     <Folder Include="Mapper\" />
+    <Folder Include="5\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
