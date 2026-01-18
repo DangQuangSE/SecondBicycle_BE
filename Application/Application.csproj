@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="5\**" />
+    <EmbeddedResource Remove="5\**" />
+    <None Remove="5\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
     <Folder Include="IServices\" />
     <Folder Include="Helpers\" />
     <Folder Include="Mapper\" />
