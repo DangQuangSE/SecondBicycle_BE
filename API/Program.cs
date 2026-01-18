@@ -1,7 +1,11 @@
-using API.Middlewares;
+﻿using API.Middlewares;
+using Application.IServices;
+using Application.Services;
+using Domain.IRepositories;
 using DotNetEnv;
 using FluentValidation.AspNetCore;
 using Infrastructure.Data;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Threading.RateLimiting;
+using Infrastructure.ExternalServices;
 
 Env.Load();
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +72,15 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 
 //dependency injection
 
+// Repositories
+builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+
+// Service logic
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+
+// Service lưu file (Infrastructure)
+builder.Services.AddScoped<IStorageService, LocalStorageService>();
+
 //fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
 
@@ -105,7 +119,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-
+app.UseStaticFiles();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
