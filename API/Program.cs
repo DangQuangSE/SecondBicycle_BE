@@ -88,6 +88,10 @@ builder.Services.AddScoped<IUserService, UserService>();
 // Auth services
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
+
+// Service logic
+builder.Services.AddScoped<IBikeTypeService, BikeTypeService>();
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
