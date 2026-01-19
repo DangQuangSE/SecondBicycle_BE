@@ -53,8 +53,12 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Database Configuration
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 //rate limitng 
 builder.Services.AddRateLimiter(RateLimiterOptions =>
@@ -74,9 +78,11 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 
 // Repositories
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 
 // Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
