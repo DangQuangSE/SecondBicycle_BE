@@ -74,9 +74,11 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 
 // Repositories
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
 
 // Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IBikeTypeService, BikeTypeService>();
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
