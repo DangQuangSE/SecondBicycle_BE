@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Infrastructure.ExternalServices;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -53,8 +54,11 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Database Configuration
+
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 //rate limitng 
 builder.Services.AddRateLimiter(RateLimiterOptions =>
@@ -74,12 +78,16 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 
 // Repositories
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 // Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+// Auth services
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
