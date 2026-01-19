@@ -77,6 +77,9 @@ builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 
 // Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
