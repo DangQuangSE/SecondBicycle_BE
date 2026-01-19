@@ -54,12 +54,13 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Database Configuration
-
+// Database Configuration
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
-
 //rate limitng 
 builder.Services.AddRateLimiter(RateLimiterOptions =>
 {
