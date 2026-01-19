@@ -79,6 +79,11 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 
 // Repositories
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddScoped<IBrandRepository, BrandRepository>();
+
+// Service logic
+builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 // Service logic
