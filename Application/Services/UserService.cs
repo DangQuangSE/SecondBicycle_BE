@@ -18,31 +18,38 @@ namespace Application.Services
         public async Task<List<UserResponseDto>> GetAllAsync()
         {
             var users = await _repo.GetAllAsync();
+
             return users.Select(u => new UserResponseDto
             {
                 UserId = u.UserId,
                 Username = u.Username,
                 Email = u.Email,
-                IsVerified = u.IsVerified ?? false,
-                Status = u.Status ?? 1
 
+                IsVerified = u.IsVerified ?? false,
+                Status = u.Status ?? 1,
+
+                RoleName = u.Role.RoleName
             }).ToList();
         }
 
-        public async Task<UserResponseDto?> GetByIdAsync(int id)
+
+        public async Task<UserResponseDto> GetByIdAsync(int id)
         {
-            var user = await _repo.GetByIdAsync(id);
-            if (user == null) return null;
+            var user = await _repo.GetByIdAsync(id)
+                ?? throw new KeyNotFoundException("User not found");
 
             return new UserResponseDto
             {
                 UserId = user.UserId,
                 Username = user.Username,
                 Email = user.Email,
-                IsVerified = user.IsVerified ?? false,
-                Status = user.Status ?? 1
 
+                IsVerified = user.IsVerified ?? false,
+                Status = user.Status ?? 1,
+
+                RoleName = user.Role.RoleName
             };
+
         }
 
         public async Task CreateAsync(CreateUserDto dto)

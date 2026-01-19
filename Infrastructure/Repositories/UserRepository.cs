@@ -16,10 +16,20 @@ namespace Infrastructure.Repositories
         }
 
         public async Task<List<User>> GetAllAsync()
-            => await _context.Users.ToListAsync();
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .AsNoTracking()
+                .ToListAsync();
+        }
 
         public async Task<User?> GetByIdAsync(int id)
-            => await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == id);
+        }
+
 
         public async Task AddAsync(User user)
         {

@@ -8,6 +8,7 @@ namespace Application.DTOs.Users
         public string Email { get; set; } = null!;
         public bool IsVerified { get; set; }
         public byte Status { get; set; }
+        public string RoleName { get; set; } = null!;
     }
 
 }
