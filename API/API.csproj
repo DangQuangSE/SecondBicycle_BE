@@ -23,8 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="FluentValidation\" />
+	  <Folder Include="Controllers\" />
+	  <Folder Include="FluentValidation\" />
   </ItemGroup>
 
   <ItemGroup>
