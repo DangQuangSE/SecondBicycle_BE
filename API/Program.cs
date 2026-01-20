@@ -87,7 +87,6 @@ builder.Services.AddScoped<IBrandService, BrandService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 // Service logic
-builder.Services.AddScoped<IUserProfileService, UserProfileService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
