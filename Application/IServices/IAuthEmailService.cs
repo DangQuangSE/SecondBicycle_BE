@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.IServices
 {
-    public interface IUserService
+    public interface IAuthEmailService
     {
         Task<GenericResult<LoginResponse>> Login(LoginRequest request);
         Task<GenericResult<string>> Register(RegisterRequest request);

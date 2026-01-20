@@ -2,7 +2,7 @@
 {
     public interface IUnitOfWork : IDisposable
     {
-        public IUserRepository Users { get; }
+        public IAuthEmailRepository Users { get; }
         public IRefreshTokenRepository RefreshTokens { get; }
         public IUserRoleRepository UserRoles { get; }
         Task BeginTransactionAsync();

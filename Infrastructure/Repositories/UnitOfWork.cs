@@ -14,11 +14,11 @@ namespace Infrastructure.Repositories
         private readonly AppDbContext _context;
         private IDbContextTransaction? _transaction;
 
-        public IUserRepository Users { get; }
+        public IAuthEmailRepository Users { get; }
         public IRefreshTokenRepository RefreshTokens { get; }
         public IUserRoleRepository UserRoles { get; }
 
-        public UnitOfWork(AppDbContext context, IUserRepository users, IRefreshTokenRepository refreshTokens, IUserRoleRepository userRoles)
+        public UnitOfWork(AppDbContext context, IAuthEmailRepository users, IRefreshTokenRepository refreshTokens, IUserRoleRepository userRoles)
         {
             _context = context;
             Users = users;

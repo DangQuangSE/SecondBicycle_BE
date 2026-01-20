@@ -80,7 +80,7 @@ builder.Services.AddRateLimiter(RateLimiterOptions =>
 //dependency injection
 
 // Repositories
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthEmailRepository, AuthEmailRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
@@ -88,7 +88,7 @@ builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
 // Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthEmailService, AuthEmailService>();
 
 // Service lưu file (Infrastructure)
 builder.Services.AddScoped<IStorageService, LocalStorageService>();
