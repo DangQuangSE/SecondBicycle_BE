@@ -1,6 +1,7 @@
 ﻿using API.FluentValidation;
 using API.Middlewares;
 using Application.DTOs.Auth;
+using Application.DTOs.Users;
 using Application.IServices;
 using Application.Services;
 using Domain.IRepositories;
@@ -115,6 +116,8 @@ builder.Services.AddScoped<IStorageService, LocalStorageService>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddTransient<IValidator<RegisterRequest>, RegisterValidator>();
 builder.Services.AddTransient<IValidator<LoginRequest>, LoginValidator>();
+builder.Services.AddTransient<IValidator<CreateUserDto>, CreateUserValidator>();
+builder.Services.AddTransient<IValidator<UpdateUserDto>, UpdateUserValidator>();
 
 
 //cors policy
