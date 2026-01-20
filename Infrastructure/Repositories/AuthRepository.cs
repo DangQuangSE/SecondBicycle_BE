@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : GenericRepository<User>, IUserRepository
+    public class AuthRepository : GenericRepository<User>, IAuthRepository
     {
-        public UserRepository(AppDbContext context) : base(context)
+        public AuthRepository(AppDbContext context) : base(context)
         {
         }
 

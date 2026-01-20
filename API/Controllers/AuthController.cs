@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController(IUserService userService) : ControllerBase
+    public class AuthController(IAuthService userService) : ControllerBase
     {
         [HttpPost("/login")]
         public async Task<ActionResult> Login([FromBody] LoginRequest request)
