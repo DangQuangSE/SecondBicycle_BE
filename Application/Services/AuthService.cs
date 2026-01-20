@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class UserService(IUnitOfWork unitOfWork) : IUserService
+    public class AuthService(IUnitOfWork unitOfWork) : IAuthService
     {
         public async Task<GenericResult<LoginResponse>> Login(LoginRequest request)
         {
