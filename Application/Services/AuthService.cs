@@ -3,50 +3,36 @@ using Application.Helpers;
 using Application.IServices;
 using Domain.Entities;
 using Domain.IRepositories;
-using Google.Apis.Auth;
-using Microsoft.Extensions.Configuration;
 
-namespace Infrastructure.Services
+namespace Application.Services
 {
     public class AuthService : IAuthService
     {
         private readonly IAuthRepository _authRepository;
-        private readonly ITokenService _tokenService;
-        private readonly IConfiguration _configuration;
+        private readonly IGoogleAuthService _googleAuthService;
 
-        public AuthService(IAuthRepository authRepository, ITokenService tokenService, IConfiguration configuration)
+        public AuthService(IAuthRepository authRepository, IGoogleAuthService googleAuthService)
         {
             _authRepository = authRepository;
-            _tokenService = tokenService;
-            _configuration = configuration;
+            _googleAuthService = googleAuthService;
         }
 
         public async Task<GenericResult<AuthResponse>> LoginWithGoogleAsync(string idToken)
         {
             try
             {
-                var clientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-                if (string.IsNullOrWhiteSpace(clientId))
-                {
-                    return GenericResult<AuthResponse>.Failure("Google ClientId is not configured.");
-                }
-
-                var settings = new GoogleJsonWebSignature.ValidationSettings
-                {
-                    Audience = new List<string> { clientId }
-                };
-
-                var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);
-                if (payload == null)
+                var googleUserInfo = await _googleAuthService.ValidateGoogleTokenAsync(idToken);
+                
+                if (googleUserInfo == null)
                 {
                     return GenericResult<AuthResponse>.Failure("Invalid Google Token");
                 }
 
-                var user = await _authRepository.GetUserByEmailAsync(payload.Email);
+                var user = await _authRepository.GetUserByEmailAsync(googleUserInfo.Email);
 
                 if (user == null)
                 {
-                    var baseUsername = payload.GivenName ?? payload.Email.Split('@')[0];
+                    var baseUsername = googleUserInfo.GivenName ?? googleUserInfo.Email.Split('@')[0];
                     var username = baseUsername;
                     int suffix = 1;
                     while (await _authRepository.UsernameExistsAsync(username))
@@ -58,7 +44,7 @@ namespace Infrastructure.Services
                     user = new User
                     {
                         Username = username,
-                        Email = payload.Email,
+                        Email = googleUserInfo.Email,
                         PasswordHash = Guid.NewGuid().ToString(),
                         RoleId = 2,
                         IsVerified = true,
@@ -77,23 +63,14 @@ namespace Infrastructure.Services
                     }
                 }
 
-                var token = _tokenService.GenerateToken(
-                    user.UserId, 
-                    user.Email ?? string.Empty, 
-                    user.Username ?? string.Empty, 
-                    user.RoleId, 
-                    user.Role?.RoleName);
+                var token = JwtHelper.CreateToken(user);
+                var refreshToken = RefreshTokenHelper.GenerateRefreshToken();
 
                 return GenericResult<AuthResponse>.Success(new AuthResponse
                 {
                     Token = token,
-                    Email = user.Email ?? string.Empty,
-                    Username = user.Username ?? string.Empty
+                    RefreshToken = refreshToken
                 });
-            }
-            catch (InvalidJwtException)
-            {
-                return GenericResult<AuthResponse>.Failure("Invalid Google Token");
             }
             catch (Exception ex)
             {

@@ -10,7 +10,6 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Infrastructure.ExternalServices;
 using Infrastructure.Repositories;
-using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -102,8 +101,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 // Auth services
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+builder.Services.AddScoped<IAuthService, Application.Services.AuthService>();
 builder.Services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
 
 // Service logic
