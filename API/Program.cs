@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Data;
 using Infrastructure.ExternalServices;
 using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -81,7 +82,19 @@ builder.Services.AddScoped<IUserProfileRepository, UserProfileRepository>();
 builder.Services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
 
 // Service logic
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
+// Service logic
 builder.Services.AddScoped<IUserProfileService, UserProfileService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+// Auth services
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IBikeTypeRepository, BikeTypeRepository>();
+
+// Service logic
 builder.Services.AddScoped<IBikeTypeService, BikeTypeService>();
 
 // Service lưu file (Infrastructure)
